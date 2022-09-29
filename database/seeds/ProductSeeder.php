@@ -17,6 +17,6 @@ class ProductSeeder extends Seeder
                 'image_url' => 'https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg',
                 'created_at' => date('Y-m-d'),
                 'updated_at' => date('Y-m-d')
-            ]])
+            ]]);
     }
 }    

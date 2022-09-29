@@ -11,21 +11,25 @@
 |
 */
 
-$router->get('/', 'ProductController@index');
+$router->get('/', ['middleware' => 'auth', 'uses' => 'ProductController@index']);
 
-$router->get('/products', 'ProductController@index');
+$router->get('/products', ['middleware' => 'auth', 'uses' => 'ProductController@index']);
 
-$router->get('/product/{id}', 'ProductController@detail');
+$router->post('/product', ['middleware' => 'auth', 'uses' => 'ProductController@create']);
 
-$router->post('/product', 'ProductController@create');
+$router->put('/product/{id}', ['middleware' => 'auth', 'uses' => 'ProductController@update']);
 
-$router->put('/product/{id}', 'ProductController@update');
-
-$router->post('/product/order', 'ProductController@order');
-
-$router->delete('/product/{id}', 'ProductController@destroy');
+$router->delete('/product/{id}', ['middleware' => 'auth', 'uses' => 'ProductController@destroy']);
 
 //$router->get('/key', function() {
 //    return \Illuminate\Support\Str::random(32);
 //});
+$router->group(['prefix' => 'auth'], function ($router) {
+    $router->post('login', 'AuthController@login');
+    $router->get('logout', 'AuthController@logout');
+    $router->post('forgot-password', 'AuthController@forgotPassword');
+    $router->post('reset-password', 'AuthController@resetPassword');
+    $router->post('change-password', ['middleware' => 'auth', 'uses' => 'AuthController@changePassword']);
+    $router->get('token', ['middleware' => 'auth', 'uses' => 'AuthController@refreshToken']);
+});
 
